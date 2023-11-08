@@ -4,6 +4,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolb
 import numpy as np
 from matplotlib.figure import Figure
 from tkinter.ttk import *
+import matplotlib.pyplot as plt
 
 
 class RadarTab:
@@ -22,16 +23,20 @@ class RadarTab:
         self.canvas = FigureCanvasTkAgg(self.fig, master=self.tab) 
         self.canvas.get_tk_widget().pack()
 
-        self.toolbar = NavigationToolbar2Tk(self.canvas,self.tab, pack_toolbar= False)
-        self.toolbar.update()
-        self.toolbar.pack(anchor="w",fill=tk.X)
+        # self.toolbar = NavigationToolbar2Tk(self.canvas,self.tab, pack_toolbar= False)
+        # self.toolbar.update()
+        # self.toolbar.pack(anchor="w",fill=tk.X)
 
-        tk.Button(self.tab, text="Exemple", command= self.actualisation_radar).pack(pady= 20, padx= 40)
+        tk.Button(self.tab, text="Exemple", command= self.test).pack(pady= 20, padx= 40)
 
-    def actualisation_radar(self):
+    def test(self):
+        for i in data:
+            self.actualisation_radar(i)
+            plt.pause(0.01)
+
+    def actualisation_radar(self,paquet):
         self.ax.clear()
-        self.num = self.num + 1
-        for i in data[self.num]["dataPoints"]:
+        for i in paquet["dataPoints"]:
             self.allx.append(np.radians(i[1]))
             self.ally.append(i[0])
             self.allconfiance.append(i[2])
@@ -39,9 +44,10 @@ class RadarTab:
                 self.allx.pop(0)
                 self.ally.pop(0)
                 self.allconfiance.pop(0)
-        self.ax.scatter(x =self.allx,y = self.ally,c= self.allconfiance, s=50.0,cmap="binary",vmax=250,vmin=100)
+        self.ax.scatter(x =self.allx,y = self.ally,c= self.allconfiance, s=20.0,cmap="binary",vmax=250,vmin=100)
         self.ax.set_ylim(0,6000)
         self.canvas.draw()
+        self.tab.update()
 
 
 

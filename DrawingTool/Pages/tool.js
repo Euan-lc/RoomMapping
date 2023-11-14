@@ -1,13 +1,12 @@
+import React, { useCallback, useState } from "react";
+import { View, StyleSheet, Button } from "react-native";
 import {
   Canvas,
   Path,
-  SkPath,
   Skia,
   TouchInfo,
   useTouchHandler,
 } from "@shopify/react-native-skia";
-import React, { useCallback, useState } from "react";
-import { View, StyleSheet, Button } from "react-native";
 
 export default DrawingScreen = () => {
   const [paths, setPaths] = useState([]);
@@ -24,7 +23,8 @@ export default DrawingScreen = () => {
   const onDrawingActive = useCallback((touchInfo: TouchInfo) => {
     setPaths((currentPaths) => {
       const { x, y } = touchInfo;
-      const currentPath = currentPaths[currentPaths.length - 1];
+      const currentPath = Skia.Path.Make();
+      currentPath.addPath(currentPaths[currentPaths.length - 1]);
       const lastPoint = currentPath.getLastPt();
       const xMid = (lastPoint.x + x) / 2;
       const yMid = (lastPoint.y + y) / 2;
@@ -42,13 +42,13 @@ export default DrawingScreen = () => {
     [onDrawingActive, onDrawingStart]
   );
 
-  const clearCanva = () => {
+  const clearCanvas = () => {
     setPaths([]);
-    console.log(paths);
+    print("clear");
   };
 
   return (
-    <Canvas style={toolStyle.canva} onTouch={touchHandler}>
+    <Canvas onTouch={touchHandler}>
       {paths.map((path, index) => (
         <Path
           key={index}

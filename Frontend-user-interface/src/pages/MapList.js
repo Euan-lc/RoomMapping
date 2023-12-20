@@ -108,7 +108,6 @@ function MapOptions(...props) {
                     <MenuItem onClick={toMapEditor}>Modifier</MenuItem>
                     <MenuItem onClick={handlePublish}>Publier</MenuItem>
                     <MenuItem onClick={handleMatchPopup}>Matchs</MenuItem>
-                    <MenuItem onClick={() => { handleClose(); window.open(props[0]['img'], '_blank') }}>Agrandir</MenuItem>
                     <MenuItem onClick={handleOpenDownloadDialog}>Télécharger</MenuItem>
                     <MenuItem onClick={handleMapDeletion}>Supprimer</MenuItem>
                 </Menu>

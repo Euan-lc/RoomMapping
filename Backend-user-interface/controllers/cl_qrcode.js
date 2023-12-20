@@ -1,9 +1,10 @@
 var R_qrcode = require('qrcode');
 const { db } = require('../db.js');
+require('dotenv').config()
 
 exports.publish = async (req, res, next) => {
     //generate url
-    url = `${process.env.URL}/map/?type=${req.body.type}&mapid=${req.body.mid}`
+    url = `${process.env.URL}/map/?type=${req.body.type}&mapurl=${req.body.uid}/${req.body.mid}`
     //transform url into qrcode
     var code = R_qrcode.toString(url, {errorCorrectionLevel: 'H', type:'svg'}, function(err, data){
         if (err) throw err;

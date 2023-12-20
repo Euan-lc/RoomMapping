@@ -23,7 +23,7 @@ function App() {
                 <Route path="/myAccount" element={<MyAccount/>}/>
                 <Route path="/mapEditor" element={<MapEditor/>}/>
             </Route>
-            <Route path="/map" element={<Zoomzoom/>}/>
+            <Route path="/map" element={<Map/>}/>
         </Routes>
     );
 }

@@ -169,6 +169,7 @@ const NewGame = (props) => {
                     <span>Créer un nouveau match :</span>
                 </div>
                 <div className="new-game-container">
+                    <div className="field-container">
                     <label htmlFor={"gameName"}>Nom du match:</label>
                     <input
                         id={"gameName"}
@@ -178,7 +179,7 @@ const NewGame = (props) => {
                         placeholder="Entrez le nom du match"
                         required
                     />
-
+                    </div>
                     <label htmlFor={"gameDate"}>Date:</label>
                     <input
                         id={"gameDate"}

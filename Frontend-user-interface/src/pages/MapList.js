@@ -119,17 +119,13 @@ function MapOptions(...props) {
                     {!props[0].published && <MenuItem onClick={handlePublish}>Publier</MenuItem>}
                     {props[0].published && <MenuItem onClick={handleParametres}>Parametres publication</MenuItem>}
                     <MenuItem onClick={handleMatchPopup}>Matchs</MenuItem>
-                    <MenuItem onClick={() => {
-                        handleClose();
-                        window.open(props[0]['img'], '_blank')
-                    }}>Agrandir</MenuItem>
                     <MenuItem onClick={handleOpenDownloadDialog}>Télécharger</MenuItem>
                     <MenuItem onClick={handleMapDeletion}>Supprimer</MenuItem>
                 </Menu>
                 <PublishPopup open={publishOpen} close={handlePublishClose} mapId={props[0].mapId}/>
                 <ParametresPopup open={parametresOpen} close={handleParametresClose} qrcode={props[0].qrcode}
                                  mapId={props[0].mapId}/>
-                <MatchPopup open={matchPopupOpen} onClose={() => setMatchPopupOpen(false)} mapId={props[0]['id']}/>
+                <MatchPopup open={matchPopupOpen} onClose={() => setMatchPopupOpen(false)} mapId={props[0].mapId} url={props[0]['img']}/>
                 <DownloadDialog mapId={props[0]['id']} downloadDialogOpen={downloadDialogOpen}
                                 handleCloseDownloadDialog={handleCloseDownloadDialog}/>
             </Box>
@@ -143,7 +139,6 @@ function MapOptions(...props) {
 }
 
 function PublishPopup(...props) {
-    console.log(props[0].mapId)
     const auth = getAuth();
     const uid = auth.currentUser.uid;
 
@@ -160,7 +155,7 @@ function PublishPopup(...props) {
 
     const handleSumbit = (event) => {
         // event.preventDefault()
-        fetch(`http://localhost:5000/api/qrcode`, {
+        fetch(`${apiUrl}api/qrcode`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -168,7 +163,7 @@ function PublishPopup(...props) {
             body: JSON.stringify({
                 type: formData.type,
                 mid: props[0].mapId,
-                'uid': uid
+                uid: uid
             })
         }).then(
             props[0].close()
@@ -204,7 +199,7 @@ function ParametresPopup(...props) {
 
 
     const handleMiseHorsligne = () => {
-        fetch(`http://localhost:5000/api/qrcode`, {
+        fetch(`${apiUrl}api/qrcode`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
@@ -219,7 +214,7 @@ function ParametresPopup(...props) {
     }
 
     const handleParamSumbit = () => {
-        fetch(`http://localhost:5000/api/qrcode`, {
+        fetch(`${apiUrl}api/qrcode`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -284,9 +279,6 @@ function ParametresPopup(...props) {
 }
 
 function MatchPopup(props) {
-    const handleValidate = () => {
-        console.log('validate function for match popup');
-    };
 
     return (
         <Dialog open={props.open} onClose={props.onClose}>
@@ -304,7 +296,6 @@ function DownloadDialog(props) {
         const img = new Image();
         img.crossOrigin = "anonymous";
         img.src = document.getElementById(props.mapId).src;
-        console.log(img.src)
         img.onload = function () {
             const canvas = document.createElement('canvas');
             const ctx = canvas.getContext('2d');
@@ -435,7 +426,7 @@ export default function MapList() {
                                 subtitle={item.author}
                                 actionIcon={
                                     <MapOptions img={item.img} published={item.published} qrcode={item.qrcode}
-                                                mapId={item.id} name={item.filename}/>
+                                                mapId={item.id} name={item.filename} id={item.id}/>
                                 }
                             />
                         </ImageListItem>

@@ -23,7 +23,6 @@ const GameList = (props) => {
 
     const handleDetails = () => {
         setGameDetails(true)
-        console.log(`Details for game ${fetchData[selectedRow].gameId}`);
     };
 
     const fetchGames = (uid) => {
@@ -36,7 +35,6 @@ const GameList = (props) => {
             })
             .then(data => {
                 setfetchData(data);
-                console.log(data);
                 setIsLoaded(true)
             }).catch((error) => {
             console.log('error: ' + error);

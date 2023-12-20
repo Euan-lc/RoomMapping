@@ -96,3 +96,18 @@ font-weight: bold;
 .empty-element {
     height: 54px; /* Adjust the height as needed to match your button's height */
 }
+
+.field-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+label {
+    margin-right: 10px;
+}
+
+input {
+    flex-grow: 1;
+    /* other styles */
+}
